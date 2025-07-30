@@ -39,7 +39,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                 <section className="flex-1 p-6 sm:p-8 md:p-12 flex flex-col hide-scrollbar overflow-y-auto">
                     <div className="flex items-center gap-4 mb-8">
                         <Image src="/next.svg" alt="BookWise Logo" width={45} height={45} />
-                        <h1 className="text-3xl sm:text-4xl font-bold tracking-wide">
+                        <h1 className="text-3xl sm:text-4xl font-bold tracking-wide text-white">
                             Authentication
                         </h1>
                     </div>

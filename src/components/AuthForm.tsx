@@ -76,10 +76,10 @@ const AuthForm = <T extends FieldValues>({
     return (
         <div className="flex flex-col gap-8 max-w-md w-full">
             <div className="text-center space-y-3">
-                <h1 className="text-3xl font-bold text-foreground">
+                <h1 className="text-3xl font-bold text-slate-100">
                     {isSignIn ? "Welcome Back" : "Create Account"}
                 </h1>
-                <p className="text-muted-foreground text-sm leading-relaxed">
+                <p className="text-slate-300 text-sm leading-relaxed">
                     {isSignIn
                         ? "Sign in to explore and manage your product lists seamlessly."
                         : "Fill in your details to create an account and start organizing your favorite products."}
@@ -95,7 +95,7 @@ const AuthForm = <T extends FieldValues>({
                             name={fieldName as Path<T>}
                             render={({ field }) => (
                                 <FormItem className="space-y-2">
-                                    <FormLabel className="text-sm font-medium text-foreground">
+                                    <FormLabel className="text-sm font-medium text-slate-100">
                                         {FIELD_NAMES[field.name as keyof typeof FIELD_NAMES]}
                                     </FormLabel>
                                     <FormControl>
@@ -158,12 +158,12 @@ const AuthForm = <T extends FieldValues>({
             </Form>
 
             <div className="text-center">
-                <p className="text-muted-foreground text-sm">
+                <p className="text-slate-100 text-sm">
                     {isSignIn ? "Don't have an account?" : "Already have an account?"}
                     {" "}
                     <Link
                         href={isSignIn ? "/sign-up" : "/sign-in"}
-                        className="text-foreground hover:text-foreground/80 font-medium transition-colors underline underline-offset-2"
+                        className="text-slate-100 hover:text-slate-100/80 font-medium transition-colors underline underline-offset-2"
                     >
                         {isSignIn ? "Create one now" : "Sign in instead"}
                     </Link>
