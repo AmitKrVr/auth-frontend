@@ -9,6 +9,59 @@ const api = axios.create({
     },
 });
 
+interface CookieOptions {
+    expires?: number;
+    secure?: boolean;
+    sameSite?: 'strict' | 'lax' | 'none';
+    path?: string;
+}
+
+const COOKIE_OPTIONS: CookieOptions = {
+    expires: 7,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    path: '/'
+};
+
+const setCookie = (name: string, value: string, options: CookieOptions = {}) => {
+    if (typeof document === 'undefined') return;
+
+    let cookieString = `${name}=${encodeURIComponent(value)}`;
+
+    if (options.expires) {
+        const date = new Date();
+        date.setTime(date.getTime() + (options.expires * 24 * 60 * 60 * 1000));
+        cookieString += `; expires=${date.toUTCString()}`;
+    }
+
+    if (options.path) cookieString += `; path=${options.path}`;
+    if (options.secure) cookieString += '; secure';
+    if (options.sameSite) cookieString += `; samesite=${options.sameSite}`;
+
+    document.cookie = cookieString;
+};
+
+const getCookie = (name: string): string | null => {
+    if (typeof document === 'undefined') return null;
+
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) {
+            return decodeURIComponent(c.substring(nameEQ.length, c.length));
+        }
+    }
+    return null;
+};
+
+const removeCookie = (name: string, options: CookieOptions = {}) => {
+    if (typeof document === 'undefined') return;
+
+    setCookie(name, '', { ...options, expires: -1 });
+};
 
 api.interceptors.request.use(
     (config) => {
@@ -26,7 +79,9 @@ api.interceptors.request.use(
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response?.status === 401) {
+        // Only handle 401 errors for authenticated requests (requests with tokens)
+        // Don't handle 401 for login/signup requests as they should show error messages
+        if (error.response?.status === 401 && getToken()) {
             logout();
             window.location.href = '/sign-in';
         }
@@ -61,22 +116,15 @@ export interface SignupData {
 }
 
 export const getToken = (): string | null => {
-    if (typeof window !== 'undefined') {
-        return localStorage.getItem('authToken');
-    }
-    return null;
+    return getCookie('authToken');
 };
 
 export const setToken = (token: string): void => {
-    if (typeof window !== 'undefined') {
-        localStorage.setItem('authToken', token);
-    }
+    setCookie('authToken', token, COOKIE_OPTIONS);
 };
 
 export const removeToken = (): void => {
-    if (typeof window !== 'undefined') {
-        localStorage.removeItem('authToken');
-    }
+    removeCookie('authToken', { path: '/' });
 };
 
 export const getUser = (): User | null => {

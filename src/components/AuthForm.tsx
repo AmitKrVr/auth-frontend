@@ -44,7 +44,7 @@ const AuthForm = <T extends FieldValues>({
                 toast.success("Success", {
                     description: `You have successfully ${isSignIn ? "signed in" : "signed up"}.`
                 })
-                router.push("/");
+                // Don't navigate here, let the AuthContext handle navigation
             } else {
                 toast.error(`Error ${isSignIn ? "signing in" : "signing up"}`, {
                     description: result.error ?? `An error occurred during ${isSignIn ? "signing in" : "signing up"}`
@@ -52,7 +52,9 @@ const AuthForm = <T extends FieldValues>({
             }
         } catch (err) {
             console.error("AuthForm onSubmit error:", err);
-            toast.error("An unexpected error occurred.");
+            toast.error("An unexpected error occurred.", {
+                description: err instanceof Error ? err.message : "Please try again"
+            });
         } finally {
             setLoading(false)
         }
