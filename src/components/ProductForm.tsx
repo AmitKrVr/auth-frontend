@@ -120,14 +120,11 @@ export default function ProductForm({ product, onSubmit, onCancel, loading = fal
                     {imagePreview ? (
                         <div className="relative inline-block">
                             <div className="relative overflow-hidden rounded-lg border-2 border-gray-700 bg-gray-800">
-                                <Image
+                                <img
                                     src={imagePreview}
                                     alt="Product preview"
                                     className="h-32 w-32 object-cover"
-                                    height={100}
-                                    width={100}
                                     sizes="(max-width: 768px) 100vw, 33vw"
-                                    priority={false}
                                 />
                                 <button
                                     type="button"

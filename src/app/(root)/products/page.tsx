@@ -193,13 +193,11 @@ export default function ProductsPage() {
                             <Card key={product.id} className="bg-gray-900/50 border-gray-800 backdrop-blur-sm overflow-hidden hover:border-gray-700 transition-all duration-200 group">
                                 <div className="aspect-square bg-gray-800 relative overflow-hidden">
                                     {product.imageUrl ? (
-                                        <Image
+                                        <img
                                             src={`${process.env.NEXT_PUBLIC_API_URL}${product.imageUrl}`}
                                             alt={product.name}
-                                            fill
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                             sizes="(max-width: 768px) 100vw, 33vw"
-                                            priority={false}
                                         />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center text-gray-500">
