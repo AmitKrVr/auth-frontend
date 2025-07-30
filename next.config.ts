@@ -4,8 +4,8 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: '192.168.80.76',
+        protocol: 'https',
+        hostname: 'auth-frontend-dun.vercel.app',
         port: '4000',
         pathname: '/uploads/**',
       },
